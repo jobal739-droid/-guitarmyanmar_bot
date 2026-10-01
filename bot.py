@@ -1,17 +1,14 @@
-
 import os
-from threading import Thread
 import telebot
-from flask import Flask
+from flask import Flask, request
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # လူကြီးမင်း၏ Telegram Bot Token
 TOKEN = "8996299743:AAGt3ctPHXjdhhlvpYbzE5Lu-6sAZL7Dwl4"
 
-# NanoBanana Admin ID (ဝယ်ယူမှုများအတွက် သို့မဟုတ် Admin ဆက်သွယ်ရန်)
-NANO_BANANA_ADMIN_ID = 8414511023
-
-bot = telebot.TeleBot(TOKEN)
+# Threaded ကို False ထားခြင်းဖြင့် Webhook တွင် ပိုမိုတည်ငြိမ်စေပါသည်
+bot = telebot.TeleBot(TOKEN, threaded=False)
+app = Flask(__name__)
 
 
 def get_main_keyboard():
@@ -24,7 +21,6 @@ def get_main_keyboard():
   return markup
 
 
-# /start နှိပ်လိုက်သည့်အခါ မင်္ဂလာစာလွှာနှင့် ခလုတ်များ ပြသမည်
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
   welcome_text = (
@@ -36,7 +32,6 @@ def send_welcome(message):
   )
 
 
-# ခလုတ်များ နှိပ်လိုက်သည့်အခါ စာပြန်မည့် Callback Handler
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
   data = call.data
@@ -48,7 +43,7 @@ def callback_query(call):
         "၂။ key familial မိသားစုကီးများ\n"
         "၃။ Retham Style ရမ်သမ်စည်းချက်စတိုင်\n"
         "၄။ Song play သီချင်းတီးနည်း\n\n"
-        "💰 *ဝယ်ယူရန် ငွေ 50000 ကျပ်*\n"
+        "💰 *ဝယ်ယူရန် ငွေ ၄၀၀၀၀ ကျပ်*\n"
         "✨ တခါသွင်းပြီးရင် ရာသက်ပိုင်ကြည့်လို့ရပါပြီဗျ\n\n"
         "မှတ်ချက် ။ ။ မေတ္တာရပ်ခံစရာ ချက်ချင်းစာမပြန်နိင်တာရှိရင် သည်းခံပြီးခနစောင့်ပေးပါဗျ ကျေးဇူးတင်ပါသည်။"
     )
@@ -74,7 +69,7 @@ def callback_query(call):
         "၂။ ကော့ဒ်ဖွဲ့စည်းပုံ\n"
         "၃။ Key C Position\n"
         "၄။ Major Shape\n\n"
-        "💰 *ဝယ်ယူရန် ငွေ 50000ကျပ်*\n"
+        "💰 *ဝယ်ယူရန် ငွေ ၄၀၀၀၀ ကျပ်*\n"
         "✨ တခါသွင်းပြီးရင် ရာသက်ပိုင်ကြည့်လို့ရပါပြီဗျ\n\n"
         "မှတ်ချက် ။ ။ မေတ္တာရပ်ခံစရာ ချက်ချင်းစာမပြန်နိင်တာရှိရင် သည်းခံပြီးခနစောင့်ပေးပါဗျ ကျေးဇူးတင်ပါသည်။"
     )
@@ -92,7 +87,6 @@ def callback_query(call):
         reply_markup=markup,
     )
 
-  # ဝယ်မည်ခလုတ်နှိပ်သောအခါ ငွေပေးချေမှု နည်းလမ်းရွေးရန် (Kpay / Wave)
   elif data in ["buy_1", "buy_2"]:
     course_num = "၁" if data == "buy_1" else "၂"
     c_code = "1" if data == "buy_1" else "2"
@@ -122,7 +116,6 @@ def callback_query(call):
         reply_markup=markup,
     )
 
-  # Kpay ရွေးချယ်သည့်အခါ
   elif data.startswith("pay_kpay_"):
     c_code = data.split("_")[-1]
     text = (
@@ -149,7 +142,6 @@ def callback_query(call):
         reply_markup=markup,
     )
 
-  # Wave Pay ရွေးချယ်သည့်အခါ
   elif data.startswith("pay_wave_"):
     c_code = data.split("_")[-1]
     text = (
@@ -189,24 +181,27 @@ def callback_query(call):
     )
 
 
-# --- Flask ဝဘ်ဆာဗာနှင့် Bot ကို ချိတ်ဆက်ခြင်း ---
-app = Flask("")
+# --- Webhook Endpoint for Flask ---
+@app.route(f"/{TOKEN}", methods=["POST"])
+def webhook():
+  if request.headers.get("content-type") == "application/json":
+    json_string = request.get_data().decode("utf-8")
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "", 200
+  else:
+    return "Forbidden", 403
 
 
 @app.route("/")
 def home():
-  return "Bot is running!"
-
-
-def run_bot():
-  bot.infinity_polling()
+  return "Bot is running with Webhook!"
 
 
 if __name__ == "__main__":
-  # Telegram Bot ကို Background Thread တွင် အလုပ်လုပ်ခိုင်းခြင်း
-  t = Thread(target=run_bot)
-  t.daemon = True
-  t.start()
+  # Remove previous webhooks and set up the new Render Webhook URL
+  bot.remove_webhook()
+  RENDER_URL = "https://guitarmyanmar-bot.onrender.com"
+  bot.set_webhook(url=f"{RENDER_URL}/{TOKEN}")
 
-  # Flask ကို Main Thread တွင် Run ၍ Render က Port ကို ချက်ချင်းသိရှိစေရန် ပြုလုပ်ခြင်း
   app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
