@@ -1,3 +1,4 @@
+
 import os
 from threading import Thread
 import telebot
@@ -188,7 +189,7 @@ def callback_query(call):
     )
 
 
-# --- Flask ဝဘ်ဆာဗာ (Render တွင် Port Error မတက်စေရန်) ---
+# --- Flask ဝဘ်ဆာဗာနှင့် Bot ကို ချိတ်ဆက်ခြင်း ---
 app = Flask("")
 
 
@@ -197,12 +198,15 @@ def home():
   return "Bot is running!"
 
 
-def run():
-  app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-
-
-# Bot နှင့် Flask ကို အပြိုင် (Thread) ဖြင့် ဖွင့်ခြင်း
-if __name__ == "__main__":
-  t = Thread(target=run)
-  t.start()
+def run_bot():
   bot.infinity_polling()
+
+
+if __name__ == "__main__":
+  # Telegram Bot ကို Background Thread တွင် အလုပ်လုပ်ခိုင်းခြင်း
+  t = Thread(target=run_bot)
+  t.daemon = True
+  t.start()
+
+  # Flask ကို Main Thread တွင် Run ၍ Render က Port ကို ချက်ချင်းသိရှိစေရန် ပြုလုပ်ခြင်း
+  app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
