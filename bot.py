@@ -37,13 +37,13 @@ def callback_query(call):
   data = call.data
   if data == "course_1":
     text = (
-        "🎸 *Guitar Chord Vs Retham Basis*\n"
+        "🎸 <b>Guitar Chord Vs Retham Basis</b>\n"
         "(ဂီတာ ကောဒ့် နှင့် ရမ်သမ် အခြေခံ)\n\n"
         "၁။ chords ကောဒ့်များ\n"
         "၂။ key familial မိသားစုကီးများ\n"
         "၃။ Retham Style ရမ်သမ်စည်းချက်စတိုင်\n"
         "၄။ Song play သီချင်းတီးနည်း\n\n"
-        "💰 *ဝယ်ယူရန် ငွေ 50000 ကျပ်*\n"
+        "💰 <b>ဝယ်ယူရန် ငွေ 50000 ကျပ်</b>\n"
         "✨ တခါသွင်းပြီးရင် ရာသက်ပိုင်ကြည့်လို့ရပါပြီဗျ\n\n"
         "မှတ်ချက် ။ ။ မေတ္တာရပ်ခံစရာ ချက်ချင်းစာမပြန်နိင်တာရှိရင် သည်းခံပြီးခနစောင့်ပေးပါဗျ ကျေးဇူးတင်ပါသည်။"
     )
@@ -57,19 +57,19 @@ def callback_query(call):
         text,
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
-        parse_mode="Markdown",
+        parse_mode="HTML",
         reply_markup=markup,
     )
 
   elif data == "course_2":
     text = (
-        "🎸 *Guitar Lead Basis*\n"
+        "🎸 <b>Guitar Lead Basis</b>\n"
         "(ဂီတာ လိဒ် အခြေခံ)\n\n"
         "၁။ လက်အနေအထားလက်ကျင့်နည်း\n"
         "၂။ ကော့ဒ်ဖွဲ့စည်းပုံ\n"
         "၃။ Key C Position\n"
         "၄။ Major Shape\n\n"
-        "💰 *ဝယ်ယူရန် ငွေ 60000 ကျပ်*\n"
+        "💰 <b>ဝယ်ယူရန် ငွေ 60000 ကျပ်</b>\n"
         "✨ တခါသွင်းပြီးရင် ရာသက်ပိုင်ကြည့်လို့ရပါပြီဗျ\n\n"
         "မှတ်ချက် ။ ။ မေတ္တာရပ်ခံစရာ ချက်ချင်းစာမပြန်နိင်တာရှိရင် သည်းခံပြီးခနစောင့်ပေးပါဗျ ကျေးဇူးတင်ပါသည်။"
     )
@@ -83,88 +83,33 @@ def callback_query(call):
         text,
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
-        parse_mode="Markdown",
+        parse_mode="HTML",
         reply_markup=markup,
     )
 
   elif data in ["buy_1", "buy_2"]:
-    course_num = "၁" if data == "buy_1" else "၂"
     c_code = "1" if data == "buy_1" else "2"
+    # KPay တစ်ခုတည်းသာ ထားရှိပြီး "နံပါတ်" စာလုံးကို ဖြုတ်ထားပါသည်
     text = (
-        f"💳 *ငွေပေးချေမည့် နည်းလမ်းကို ရွေးချယ်ပါ* (သင်ခန်းစာ - {course_num})\n\n"
-        "အောက်ပါ ငွေလွှဲမည့် အကောင့်တစ်ခုကို ရွေးချယ်ပြီး ငွေလွှဲနိုင်ပါသည်။"
+        "💳 <b>Kpay ဖြင့် ငွေပေးချေရန်</b>\n\n"
+        "နာမည် - JOBAR\n"
+        "Kpay - <code>09795216907</code>\n\n"
+        "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID:"
+        " <code>8414511023</code>) ထံ ပေးပို့ပေးပါခင်ဗျာ။"
     )
     markup = InlineKeyboardMarkup(row_width=1)
-    btn_kpay = InlineKeyboardButton(
-        "💵 Kpay ဖြင့် ဝယ်မည်", callback_data=f"pay_kpay_{c_code}"
-    )
-    btn_wave = InlineKeyboardButton(
-        "💴 Wave Pay ဖြင့် ဝယ်မည်", callback_data=f"pay_wave_{c_code}"
-    )
     btn_back_course = InlineKeyboardButton(
         "🔙 သင်ခန်းစာသို့ ပြန်သွားရန်", callback_data=f"course_{c_code}"
     )
     btn_back_home = InlineKeyboardButton(
         "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
     )
-    markup.add(btn_kpay, btn_wave, btn_back_course, btn_back_home)
+    markup.add(btn_back_course, btn_back_home)
     bot.edit_message_text(
         text,
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
-        parse_mode="Markdown",
-        reply_markup=markup,
-    )
-
-  elif data.startswith("pay_kpay_"):
-    c_code = data.split("_")[-1]
-    # ဖုန်းနံပါတ်ကို Backticks (` `) ထဲထည့်ထားခြင်းဖြင့် Telegram တွင် နှိပ်၍ Copy ကူးရလွယ်ကူစေပါသည်
-    text = (
-        "💳 *Kpay ဖြင့် ငွေပေးချေရန်*\n\n"
-        "နာမည် - JOBAR\n"
-        "Kpay နံပါတ် - `09795216907`\n\n"
-        "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID: `8414511023`)"
-        " ထံ ပေးပို့ပေးပါခင်ဗျာ။"
-    )
-    markup = InlineKeyboardMarkup(row_width=1)
-    btn_back_pay = InlineKeyboardButton(
-        "🔙 ငွေပေးချေမှု ရွေးချယ်ရန်", callback_data=f"buy_{c_code}"
-    )
-    btn_back_home = InlineKeyboardButton(
-        "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
-    )
-    markup.add(btn_back_pay, btn_back_home)
-    bot.edit_message_text(
-        text,
-        chat_id=call.message.chat.id,
-        message_id=call.message.message_id,
-        parse_mode="Markdown",
-        reply_markup=markup,
-    )
-
-  elif data.startswith("pay_wave_"):
-    c_code = data.split("_")[-1]
-    # ဖုန်းနံပါတ်ကို Backticks (` `) ထဲထည့်ထားခြင်းဖြင့် Telegram တွင် နှိပ်၍ Copy ကူးရလွယ်ကူစေပါသည်
-    text = (
-        "💳 *Wave Pay ဖြင့် ငွေပေးချေရန်*\n\n"
-        "နာမည် - JOBAR\n"
-        "Wavepay နံပါတ် - `09943667126`\n\n"
-        "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID: `8414511023`)"
-        " ထံ ပေးပို့ပေးပါခင်ဗျာ။"
-    )
-    markup = InlineKeyboardMarkup(row_width=1)
-    btn_back_pay = InlineKeyboardButton(
-        "🔙 ငွေပေးချေမှု ရွေးချယ်ရန်", callback_data=f"buy_{c_code}"
-    )
-    btn_back_home = InlineKeyboardButton(
-        "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
-    )
-    markup.add(btn_back_pay, btn_back_home)
-    bot.edit_message_text(
-        text,
-        chat_id=call.message.chat.id,
-        message_id=call.message.message_id,
-        parse_mode="Markdown",
+        parse_mode="HTML",
         reply_markup=markup,
     )
 
