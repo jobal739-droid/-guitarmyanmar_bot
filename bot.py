@@ -122,7 +122,7 @@ def callback_query(call):
         "💳 *Kpay ဖြင့် ငွေပေးချေရန်*\n\n"
         "နာမည် - JOBAR\n"
         "Kpay - `09795216907`\n"
-        "ငွေပမာဏ - *50000 ကျပ်*\n\n"
+        
         "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID: `8414511023`)"
         " ထံ ပေးပို့ပေးပါခင်ဗျာ။"
     )
@@ -148,7 +148,7 @@ def callback_query(call):
         "💳 *Wave Pay ဖြင့် ငွေပေးချေရန်*\n\n"
         "နာမည် - JOBAR\n"
         "Wavepay - `09943667126`\n"
-        "ငွေပမာဏ - *50000 ကျပ်*\n\n"
+        
         "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID: `8414511023`)"
         " ထံ ပေးပို့ပေးပါခင်ဗျာ။"
     )
