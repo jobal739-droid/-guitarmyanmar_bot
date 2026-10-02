@@ -118,11 +118,11 @@ def callback_query(call):
 
   elif data.startswith("pay_kpay_"):
     c_code = data.split("_")[-1]
+    # ဖုန်းနံပါတ်ကို Backticks (` `) ထဲထည့်ထားခြင်းဖြင့် Telegram တွင် နှိပ်၍ Copy ကူးရလွယ်ကူစေပါသည်
     text = (
         "💳 *Kpay ဖြင့် ငွေပေးချေရန်*\n\n"
         "နာမည် - JOBAR\n"
-        "Kpay - `09795216907`\n"
-        
+        "Kpay နံပါတ် - `09795216907`\n\n"
         "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID: `8414511023`)"
         " ထံ ပေးပို့ပေးပါခင်ဗျာ။"
     )
@@ -144,11 +144,11 @@ def callback_query(call):
 
   elif data.startswith("pay_wave_"):
     c_code = data.split("_")[-1]
+    # ဖုန်းနံပါတ်ကို Backticks (` `) ထဲထည့်ထားခြင်းဖြင့် Telegram တွင် နှိပ်၍ Copy ကူးရလွယ်ကူစေပါသည်
     text = (
         "💳 *Wave Pay ဖြင့် ငွေပေးချေရန်*\n\n"
         "နာမည် - JOBAR\n"
-        "Wavepay - `09943667126`\n"
-        
+        "Wavepay နံပါတ် - `09943667126`\n\n"
         "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID: `8414511023`)"
         " ထံ ပေးပို့ပေးပါခင်ဗျာ။"
     )
