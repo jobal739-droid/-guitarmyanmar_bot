@@ -88,11 +88,9 @@ def callback_query(call):
     )
 
   elif data in ["buy_1", "buy_2"]:
-    course_num = "၁" if data == "buy_1" else "၂"
     c_code = "1" if data == "buy_1" else "2"
     text = (
-        f"💳 <b>ငွေပေးချေမည့် နည်းလမ်းကို ရွေးချယ်ပါ</b> (သင်ခန်းစာ -"
-        f" {course_num})\n\n"
+        "💳 <b>ငွေပေးချေမည့် နည်းလမ်းကို ရွေးချယ်ပါ</b>\n\n"
         "အောက်ပါ ငွေလွှဲမည့် အကောင့်တစ်ခုကို ရွေးချယ်ပြီး ငွေလွှဲနိုင်ပါသည်။"
     )
     markup = InlineKeyboardMarkup(row_width=1)
@@ -121,7 +119,7 @@ def callback_query(call):
     c_code = data.split("_")[-1]
     text = (
         "💳 <b>Kpay ဖြင့် ငွေပေးချေရန်</b>\n\n"
-        "နာမည် - JOBAR\n"
+        "နာမည် - <code>JOBAR</code>\n"
         "Kpay - <code>09795216907</code>\n\n"
         "ငွေလွှဲပြီးပါက အောက်ပါခလုတ်ကို နှိပ်၍ Screenshot ပို့ပေးပါခင်ဗျာ။"
     )
@@ -149,7 +147,7 @@ def callback_query(call):
     c_code = data.split("_")[-1]
     text = (
         "💳 <b>Wave Pay ဖြင့် ငွေပေးချေရန်</b>\n\n"
-        "နာမည် - JOBAR\n"
+        "နာမည် - <code>JOBAR</code>\n"
         "Wavepay - <code>09943667126</code>\n\n"
         "ငွေလွှဲပြီးပါက အောက်ပါခလုတ်ကို နှိပ်၍ Screenshot ပို့ပေးပါခင်ဗျာ။"
     )
