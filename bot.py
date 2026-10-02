@@ -123,17 +123,20 @@ def callback_query(call):
         "💳 <b>Kpay ဖြင့် ငွေပေးချေရန်</b>\n\n"
         "နာမည် - JOBAR\n"
         "Kpay - <code>09795216907</code>\n\n"
-        "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID:"
-        " <code>8414511023</code>) ထံ ပေးပို့ပေးပါခင်ဗျာ။"
+        "ငွေလွှဲပြီးပါက အောက်ပါခလုတ်ကို နှိပ်၍ Screenshot ပို့ပေးပါခင်ဗျာ။"
     )
     markup = InlineKeyboardMarkup(row_width=1)
+    # အက်မင်ဆီသို့ တိုက်ရိုက်ချတ်ဖွင့်ရန် Button (ID: 8414511023)
+    btn_admin = InlineKeyboardButton(
+        "💬 အက်မင်ဆီသို့ တိုက်ရိုက်ပို့ရန်", url="tg://user?id=8414511023"
+    )
     btn_back_pay = InlineKeyboardButton(
         "🔙 ငွေပေးချေမှု ရွေးချယ်ရန်", callback_data=f"buy_{c_code}"
     )
     btn_back_home = InlineKeyboardButton(
         "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
     )
-    markup.add(btn_back_pay, btn_back_home)
+    markup.add(btn_admin, btn_back_pay, btn_back_home)
     bot.edit_message_text(
         text,
         chat_id=call.message.chat.id,
@@ -148,17 +151,20 @@ def callback_query(call):
         "💳 <b>Wave Pay ဖြင့် ငွေပေးချေရန်</b>\n\n"
         "နာမည် - JOBAR\n"
         "Wavepay - <code>09943667126</code>\n\n"
-        "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID:"
-        " <code>8414511023</code>) ထံ ပေးပို့ပေးပါခင်ဗျာ။"
+        "ငွေလွှဲပြီးပါက အောက်ပါခလုတ်ကို နှိပ်၍ Screenshot ပို့ပေးပါခင်ဗျာ။"
     )
     markup = InlineKeyboardMarkup(row_width=1)
+    # အက်မင်ဆီသို့ တိုက်ရိုက်ချတ်ဖွင့်ရန် Button (ID: 8414511023)
+    btn_admin = InlineKeyboardButton(
+        "💬 အက်မင်ဆီသို့ တိုက်ရိုက်ပို့ရန်", url="tg://user?id=8414511023"
+    )
     btn_back_pay = InlineKeyboardButton(
         "🔙 ငွေပေးချေမှု ရွေးချယ်ရန်", callback_data=f"buy_{c_code}"
     )
     btn_back_home = InlineKeyboardButton(
         "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
     )
-    markup.add(btn_back_pay, btn_back_home)
+    markup.add(btn_admin, btn_back_pay, btn_back_home)
     bot.edit_message_text(
         text,
         chat_id=call.message.chat.id,
