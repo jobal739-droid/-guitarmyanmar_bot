@@ -88,8 +88,37 @@ def callback_query(call):
     )
 
   elif data in ["buy_1", "buy_2"]:
+    course_num = "၁" if data == "buy_1" else "၂"
     c_code = "1" if data == "buy_1" else "2"
-    # KPay တစ်ခုတည်းသာ ထားရှိပြီး "နံပါတ်" စာလုံးကို ဖြုတ်ထားပါသည်
+    text = (
+        f"💳 <b>ငွေပေးချေမည့် နည်းလမ်းကို ရွေးချယ်ပါ</b> (သင်ခန်းစာ -"
+        f" {course_num})\n\n"
+        "အောက်ပါ ငွေလွှဲမည့် အကောင့်တစ်ခုကို ရွေးချယ်ပြီး ငွေလွှဲနိုင်ပါသည်။"
+    )
+    markup = InlineKeyboardMarkup(row_width=1)
+    btn_kpay = InlineKeyboardButton(
+        "💵 Kpay ဖြင့် ဝယ်မည်", callback_data=f"pay_kpay_{c_code}"
+    )
+    btn_wave = InlineKeyboardButton(
+        "💴 Wave Pay ဖြင့် ဝယ်မည်", callback_data=f"pay_wave_{c_code}"
+    )
+    btn_back_course = InlineKeyboardButton(
+        "🔙 သင်ခန်းစာသို့ ပြန်သွားရန်", callback_data=f"course_{c_code}"
+    )
+    btn_back_home = InlineKeyboardButton(
+        "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
+    )
+    markup.add(btn_kpay, btn_wave, btn_back_course, btn_back_home)
+    bot.edit_message_text(
+        text,
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        parse_mode="HTML",
+        reply_markup=markup,
+    )
+
+  elif data.startswith("pay_kpay_"):
+    c_code = data.split("_")[-1]
     text = (
         "💳 <b>Kpay ဖြင့် ငွေပေးချေရန်</b>\n\n"
         "နာမည် - JOBAR\n"
@@ -98,13 +127,38 @@ def callback_query(call):
         " <code>8414511023</code>) ထံ ပေးပို့ပေးပါခင်ဗျာ။"
     )
     markup = InlineKeyboardMarkup(row_width=1)
-    btn_back_course = InlineKeyboardButton(
-        "🔙 သင်ခန်းစာသို့ ပြန်သွားရန်", callback_data=f"course_{c_code}"
+    btn_back_pay = InlineKeyboardButton(
+        "🔙 ငွေပေးချေမှု ရွေးချယ်ရန်", callback_data=f"buy_{c_code}"
     )
     btn_back_home = InlineKeyboardButton(
         "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
     )
-    markup.add(btn_back_course, btn_back_home)
+    markup.add(btn_back_pay, btn_back_home)
+    bot.edit_message_text(
+        text,
+        chat_id=call.message.chat.id,
+        message_id=call.message.message_id,
+        parse_mode="HTML",
+        reply_markup=markup,
+    )
+
+  elif data.startswith("pay_wave_"):
+    c_code = data.split("_")[-1]
+    text = (
+        "💳 <b>Wave Pay ဖြင့် ငွေပေးချေရန်</b>\n\n"
+        "နာမည် - JOBAR\n"
+        "Wavepay - <code>09943667126</code>\n\n"
+        "ငွေလွှဲပြီးပါက Screenshot ကို Admin (NanoBanana ID:"
+        " <code>8414511023</code>) ထံ ပေးပို့ပေးပါခင်ဗျာ။"
+    )
+    markup = InlineKeyboardMarkup(row_width=1)
+    btn_back_pay = InlineKeyboardButton(
+        "🔙 ငွေပေးချေမှု ရွေးချယ်ရန်", callback_data=f"buy_{c_code}"
+    )
+    btn_back_home = InlineKeyboardButton(
+        "🔙 ပင်မစာမျက်နှာသို့ ပြန်သွားရန်", callback_data="back_home"
+    )
+    markup.add(btn_back_pay, btn_back_home)
     bot.edit_message_text(
         text,
         chat_id=call.message.chat.id,
