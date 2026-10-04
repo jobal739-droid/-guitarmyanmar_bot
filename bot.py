@@ -37,7 +37,7 @@ def callback_query(call):
   data = call.data
   if data == "course_1":
     text = (
-        "🎸 <b>Guitar Chord Vs Retham Basis</b>\n"
+        "🎸 <b>Guitar Chord And Retham Basis</b>\n"
         "(ဂီတာ ကောဒ့် နှင့် ရမ်သမ် အခြေခံ)\n\n"
         "၁။ chords ကောဒ့်များ\n"
         "၂။ key familial မိသားစုကီးများ\n"
