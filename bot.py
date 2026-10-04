@@ -14,7 +14,7 @@ app = Flask(__name__)
 def get_main_keyboard():
   markup = InlineKeyboardMarkup(row_width=1)
   btn1 = InlineKeyboardButton(
-      "၁။ Guitar Chord Vs Retham Basis", callback_data="course_1"
+      "၁။ Guitar Chord And Retham Basis", callback_data="course_1"
   )
   btn2 = InlineKeyboardButton("၂။ Guitar Lead Basis", callback_data="course_2")
   markup.add(btn1, btn2)
